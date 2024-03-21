@@ -1,24 +1,27 @@
-import math
-
-class activation_funcs:
-  def sigmoid(x):
-    return 1 / (1 + (1 / math.e ** x))
-
-  def relu(x):
-    return max(0, x)
-
-  def leaky_relu(x):
-    return 0.01 * x if x < 0 else x
+import numpy as np
 
 class mnist_nn:
-  def __init__(self, num_hidden_layers=1, num_hidden_neurons=[1], step_size=0.5, activation_func=activation_funcs.sigmoid):
-    self.num_hidden_layers = num_hidden_layers
-    self.num_hidden_neurons = num_hidden_neurons
+  def __init__(self, step_size=0.5):
     self.step_size = step_size
-    self.activation_func = activation_func
+    self.biases = 2 * np.random.rand(3, 1) - 1
+    self.hidden_layers = [np.array([]), np.array([])]
+    self.weights = [2 * np.random.rand(784, 16) - 1,
+                    2 * np.random.rand(16, 16) - 1,
+                    2 * np.random.rand(16, 10) - 1]
   
-  def train(self):
+  def train(self, x, y):
+    test = np.random.rand(1, 784)
+    relu = np.vectorize(lambda x: max(0, x))
+
+    self.hidden_layers[0] = relu(test.dot(self.weights[0]) + self.biases[0])
+
+    self.hidden_layers[1] = relu(self.hidden_layers[0].dot(self.weights[1]) + self.biases[1])
+
+    output = relu(self.hidden_layers[1].dot(self.weights[2]) + self.biases[2])
+
+  def test(self, x):
     pass
-  
-  def test(self):
-    pass
+
+nn = mnist_nn()
+nn.train(1, 2)
+print(nn.hidden_layers)
