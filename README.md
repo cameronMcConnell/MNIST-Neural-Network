@@ -97,10 +97,10 @@ nn.train(x_train, y_train)
 ### 3. Testing the neural network:
 
 ```python
-from tester import Neural_Net_Tester
+from tester import MNIST_Neural_Network_Tester
 
 # Create an instance of the tester
-tester = Neural_Net_Tester(nn)
+tester = MNIST_Neural_Network_Tester(nn)
 
 # Test the neural network
 tester.test()
